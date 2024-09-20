@@ -775,13 +775,14 @@ namespace Cafe
         {
             if (ClsSales.TableAndTheMultiBill.Count > 0)
             {
-                //    ClsSettings.SendEmail("تنبيه", "لقد اغلقت النظام وهناك فواتير علي طاولات يرجي فتح النظام ومتابعه العمل", ClsUser.GetUserName());
+              var SendEmailFoeWarningThatThereAreOpenTables =  Task.Run(()=> ClsSettings.SendEmail("تنبيه", "لقد اغلقت النظام وهناك فواتير علي طاولات يرجي فتح النظام ومتابعه العمل", ClsUser.GetUserName()));
                 AddTheOpenTableInvoicesToDataBaseAsync();
             }
 
 
-            //    ClsSettings.SendEmailWithTodaySalesAsync(RefreshTodaySales(), " تقرير مبيعات اليوم");
-
+            var SendEmailWithTodaySales=TAsk.Run(()=>ClsSettings.SendEmailWithTodaySalesAsync(RefreshTodaySales(), " تقرير مبيعات اليوم"));
+await SendEmailFoeWarningThatThereAreOpenTables;
+await SendEmailWithTodaySales;
         }
 
         private void طباعهToolStripMenuItem_Click(object sender, EventArgs e)
